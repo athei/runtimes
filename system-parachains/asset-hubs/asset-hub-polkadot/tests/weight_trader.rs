@@ -17,7 +17,7 @@
 
 use asset_hub_polkadot_runtime::{
 	xcm_config::{
-		DotLocation, DotLocationV4, StakingPot, TrustBackedAssetsPalletLocationV4, XcmConfig,
+		DotLocation, DotLocationV5, StakingPot, TrustBackedAssetsPalletLocationV5, XcmConfig,
 	},
 	AllPalletsWithoutSystem, AssetConversion, Assets, Balances, ForeignAssets, Runtime,
 	SessionKeys,
@@ -115,10 +115,10 @@ fn test_buy_and_refund_weight_with_swap_local_asset_xcm_trader() {
 			let bob: AccountId = SOME_ASSET_ADMIN.into();
 			let staking_pot = StakingPot::get();
 			let asset_1: u32 = 1;
-			let native_location = DotLocationV4::get();
+			let native_location = DotLocationV5::get();
 			let asset_1_location = AssetIdForTrustBackedAssetsConvert::<
-				TrustBackedAssetsPalletLocationV4,
-				xcm::v4::Location,
+				TrustBackedAssetsPalletLocationV5,
+				xcm::v5::Location,
 			>::convert_back(&asset_1)
 			.unwrap();
 			// bob's initial balance for native and `asset1` assets.
@@ -216,12 +216,12 @@ fn test_buy_and_refund_weight_with_swap_foreign_asset_xcm_trader() {
 		.execute_with(|| {
 			let bob: AccountId = SOME_ASSET_ADMIN.into();
 			let staking_pot = StakingPot::get();
-			let native_location = DotLocationV4::get();
-			let foreign_location = xcm::v4::Location {
+			let native_location = DotLocationV5::get();
+			let foreign_location = xcm::v5::Location {
 				parents: 1,
 				interior: (
-					xcm::v4::Junction::Parachain(1234),
-					xcm::v4::Junction::GeneralIndex(12345),
+					xcm::v5::Junction::Parachain(1234),
+					xcm::v5::Junction::GeneralIndex(12345),
 				)
 					.into(),
 			};
@@ -296,7 +296,7 @@ fn test_buy_and_refund_weight_with_swap_foreign_asset_xcm_trader() {
 
 			// refund.
 			let actual_refund = trader.refund_weight(refund_weight, &ctx).unwrap();
-			let v4_asset: xcm::v4::Asset = (foreign_location.clone(), asset_refund).into();
+			let v4_asset: xcm::v5::Asset = (foreign_location.clone(), asset_refund).into();
 			assert_eq!(actual_refund, v4_asset.try_into().unwrap());
 
 			// assert.

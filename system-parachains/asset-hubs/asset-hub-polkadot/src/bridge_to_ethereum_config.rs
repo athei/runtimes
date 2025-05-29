@@ -18,7 +18,7 @@ use crate::xcm_config::XcmRouter;
 use crate::{
 	weights, xcm_config,
 	xcm_config::{
-		AssetTransactors, LocationToAccountId, TrustBackedAssetsPalletLocation, UniversalLocation,
+		AssetTransactors, LocationToAccountId, TrustBackedAssetsPalletLocationV5, UniversalLocation,
 		XcmConfig,
 	},
 	AccountId, Assets, ForeignAssets, Runtime, RuntimeEvent,
@@ -155,7 +155,7 @@ impl snowbridge_pallet_system_frontend::Config for Runtime {
 	type RegisterTokenOrigin = EitherOf<
 		EitherOf<
 			LocalAssetOwner<
-				AssetIdForTrustBackedAssetsConvert<TrustBackedAssetsPalletLocation, Location>,
+				AssetIdForTrustBackedAssetsConvert<TrustBackedAssetsPalletLocationV5, Location>,
 				Assets,
 				AccountId,
 				AssetIdForTrustBackedAssets,
